@@ -4,14 +4,19 @@ from flask import (
     url_for,
     request,
     flash,
-    redirect
+    redirect,
+    
     )
 from forms import FormLogin, FormCriarConta
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "79d1cac6cd1f7aeff9c5988f730a1df7"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///comunidade.db"
+
+database = SQLAlchemy(app)
 
 
 @app.route("/")
