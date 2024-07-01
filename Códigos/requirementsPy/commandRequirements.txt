@@ -1,0 +1,7 @@
+Para gerar os requerimentos
+
+pip freeze > requirements.txt
+
+Para baixar os requerimentos
+
+pip install -r requirements.txt
