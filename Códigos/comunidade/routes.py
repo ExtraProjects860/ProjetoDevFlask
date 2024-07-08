@@ -8,7 +8,10 @@ from flask import (
     request,
     flash,
     redirect,)
-from comunidade.forms import FormLogin, FormCriarConta
+from comunidade.forms import (
+    FormLogin, 
+    FormCriarConta, 
+    FormEditarPerfil)
 from comunidade.models import Usuario, Post
 from flask_login import (
     login_user, 
@@ -90,7 +93,9 @@ def sair():
 @app.route("/perfil")
 @login_required
 def perfil():
-    return render_template("perfil.html")
+    foto_perfil = url_for('static', filename=f'fotos_perfil/{current_user.foto_perfil}')
+    
+    return render_template("perfil.html", foto_perfil=foto_perfil)
 
 
 @app.route("/post/criar")
@@ -98,3 +103,27 @@ def perfil():
 def criar_post():
     return render_template("criarpost.html")
 
+
+@app.route("/perfil/editar", methods=["GET", "POST"])
+@login_required
+def editar_perfil():
+    form_editarperfil = FormEditarPerfil()
+    
+    if form_editarperfil.validate_on_submit():
+        current_user.email = form_editarperfil.email.data
+        
+        current_user.username = form_editarperfil.username.data
+        
+        database.session.commit()
+        
+        flash(f"Perfil Atualizado com Sucesso!", "alert-success")
+        
+        return redirect(url_for('perfil'))
+    elif request.method == "GET":
+        form_editarperfil.email.data = current_user.email
+        
+        form_editarperfil.username.data = current_user.username
+    
+    foto_perfil = url_for('static', filename=f'fotos_perfil/{current_user.foto_perfil}')
+    
+    return render_template('editarperfil.html', foto_perfil=foto_perfil, form_editarperfil=form_editarperfil)
