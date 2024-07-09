@@ -5,7 +5,7 @@
         <hr>
         <div class="row">
             <div class="col">
-                <form action="" method="post" class="border rounded p-4 mt-2" style="box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.158);">
+                <form action="" method="post" enctype="multipart/form-data" class="border rounded p-4 mt-2" style="box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.158);">
                     {{ form_editarperfil.csrf_token }}
 
                     <legend>Editar Perfil</legend>
@@ -48,6 +48,28 @@
                             {% endif %}
 
                         </div>
+                        <div class="form-group mt-2">
+                            {{ form_editarperfil.foto_perfil.label }}
+                            {{ form_editarperfil.foto_perfil(class="form-control-file") }}
+
+                            {% if form_editarperfil.errors %}
+                                {% for erro in form_editarperfil.errors %}
+                                    <span class="text-danger">{{ erro }}</span><br>
+                                {% endfor %}
+                            {% endif %}
+
+                        </div>
+                        <hr>
+                        <h5>Cursos</h5>
+                        {% for campo in form_editarperfil  %}
+                            {% if "curso_" in campo.name %}
+                                <div class="form-group mt-2">
+                                    {{ campo(class="form-check-input") }}
+                                    {{ campo.label(class="form-control-label") }}
+
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </fieldset>
 
                     {{ form_editarperfil.botao_submit_editarperfil(class="btn btn-secondary mt-2") }}
