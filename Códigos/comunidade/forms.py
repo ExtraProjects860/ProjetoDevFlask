@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import (
     StringField, 
     PasswordField, 
@@ -41,9 +42,18 @@ class FormLogin(FlaskForm):
     lembrar_dados:BooleanField = BooleanField("Lembrar Dados de Acesso")
     botao_submit_login = SubmitField("Fazer Login")
     
+
 class FormEditarPerfil(FlaskForm):
     username:StringField = StringField("Nome de Usuário", validators=[DataRequired()])
     email:StringField = StringField("E-mail", validators=[DataRequired(), Email()])
+    foto_perfil:FileField = FileField("Atualizar Foto de Perfil", validators=[FileAllowed(["jpg", "png"])])
+    curso_excel:BooleanField = BooleanField("Excel Impressionador")
+    curso_vba:BooleanField = BooleanField("VBA Impressionador")
+    curso_powerbi:BooleanField = BooleanField("Power BI Impressionador")
+    curso_python:BooleanField = BooleanField("Python Impressionador")
+    curso_javascript:BooleanField = BooleanField("JavaScript Impressionador")
+    curso_sql:BooleanField = BooleanField("SQL Impressionador")
+
     botao_submit_editarperfil = SubmitField("Confirmar Edição")
     
     def validate_username(self, username):

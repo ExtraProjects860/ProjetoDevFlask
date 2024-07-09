@@ -1,3 +1,6 @@
+import os
+from secrets import token_hex
+from PIL import Image
 from comunidade import (
     app, 
     database, 
@@ -104,6 +107,36 @@ def criar_post():
     return render_template("criarpost.html")
 
 
+def salvar_imagem(imagem:str) -> str:
+    codigo = token_hex(8)
+    
+    nome, extensao = os.path.splitext(imagem.filename)
+    
+    nome_arquivo = nome + codigo + extensao
+    
+    caminho_completo = os.path.join(app.root_path, 'static', 'fotos_perfil', nome_arquivo)
+    
+    tamanho_imagem = (200, 200)
+    
+    imagem_reduzida = Image.open(imagem)
+    
+    imagem_reduzida.thumbnail(tamanho_imagem)
+    
+    imagem_reduzida.save(caminho_completo)
+    
+    return nome_arquivo
+
+
+def atualizar_cursos(form_editarperfil:FormEditarPerfil) -> str:
+    lista_cursos = list()
+    
+    for campo in form_editarperfil:
+        if "curso_" in campo.name and campo.data:
+            lista_cursos.append(campo.label.text)
+            
+    return ";".join(lista_cursos)
+
+
 @app.route("/perfil/editar", methods=["GET", "POST"])
 @login_required
 def editar_perfil():
@@ -113,6 +146,13 @@ def editar_perfil():
         current_user.email = form_editarperfil.email.data
         
         current_user.username = form_editarperfil.username.data
+        
+        if form_editarperfil.foto_perfil.data:
+            nome_imagem = salvar_imagem(form_editarperfil.foto_perfil.data)
+            
+            current_user.foto_perfil = nome_imagem
+            
+        current_user.cursos = atualizar_cursos(form_editarperfil)
         
         database.session.commit()
         
