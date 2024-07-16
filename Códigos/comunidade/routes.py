@@ -14,7 +14,8 @@ from flask import (
 from comunidade.forms import (
     FormLogin, 
     FormCriarConta, 
-    FormEditarPerfil)
+    FormEditarPerfil,
+    FormCriarPost)
 from comunidade.models import Usuario, Post
 from flask_login import (
     login_user, 
@@ -37,7 +38,7 @@ def contato():
 @app.route("/usuarios")
 @login_required
 def usuarios():
-    lista_usuarios:list = ["Lira", "João", "Alon", "Alessandra", "Amanda"]
+    lista_usuarios:list = Usuario.query.all()
     
     return render_template("usuarios.html", lista_usuarios=lista_usuarios)
 
@@ -101,10 +102,27 @@ def perfil():
     return render_template("perfil.html", foto_perfil=foto_perfil)
 
 
-@app.route("/post/criar")
+@app.route("/post/criar", methods=["GET", "POST"])
 @login_required
 def criar_post():
-    return render_template("criarpost.html")
+    
+    form_criar_post = FormCriarPost()
+    
+    if form_criar_post.validate_on_submit():
+        post = Post(
+            titulo=form_criar_post.titulo.data,
+            corpo=form_criar_post.corpo.data,
+            autor=current_user)
+        
+        database.session.add(post)
+        
+        database.session.commit()
+        
+        flash(f"Post Criado com Sucesso", "alert-success")
+        
+        return redirect(url_for("home"))
+    
+    return render_template("criarpost.html", form_criar_post=form_criar_post)
 
 
 def salvar_imagem(imagem:str) -> str:

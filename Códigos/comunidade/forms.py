@@ -4,7 +4,8 @@ from wtforms import (
     StringField, 
     PasswordField, 
     SubmitField,
-    BooleanField)
+    BooleanField,
+    TextAreaField)
 from wtforms.validators import (
     DataRequired, 
     Email, 
@@ -70,3 +71,9 @@ class FormEditarPerfil(FlaskForm):
             
             if usuario_email:
                 raise ValidationError("Já existe um usuário com esse email. Cadastre outro email!")
+
+
+class FormCriarPost(FlaskForm):
+    titulo:StringField = StringField("Título do Post", validators=[DataRequired(), Length(2, 140)])
+    corpo:TextAreaField = TextAreaField("Escreva seu Post aqui!", validators=[DataRequired()])
+    botao_submit_criar_post:SubmitField = SubmitField("Enviar Post")
