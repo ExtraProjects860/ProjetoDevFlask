@@ -13,8 +13,13 @@
                     <span>{{ current_user.email }}</span>
                     <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
                         <div class="d-flex flex-column">
-                            <span class="articles">Cursos</span>
-                            <span class="number1">0</span>
+                            {% if "Não Informado" in current_user.cursos %}
+                                <span class="articles">Cursos</span>
+                                <span class="number1">0</span>
+                            {% else %}
+                                <span class="articles">Cursos</span>
+                                <span class="number1">{{ current_user.cursos.count(";") + 1 }}</span>
+                            {% endif %}
                         </div>
                         <div class="d-flex flex-column">
                             <span class="rating">Posts</span>
@@ -26,6 +31,18 @@
                             <button class="btn btn-sm btn-outline-secondary w-100">Editar Perfil</button>
                         </a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 d-flex justify-content-center">
+        <div class="row">
+            <div class="col text-center">
+                <strong><h4>Cursos</h4></strong>
+                <div class="btn-group d-flex flex-wrap justify-content-center">
+                    {% for curso in current_user.cursos.split(";") %}
+                        <button type="button" class="btn btn-secondary mt-2 mx-1" style="box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);" disabled>{{ curso }}</button>
+                    {% endfor %}
                 </div>
             </div>
         </div>
