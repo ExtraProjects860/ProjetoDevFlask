@@ -9,7 +9,7 @@
                         class="rounded" width="200">
                 </div>
                 <div class="ml-3 w-100">
-                    <h4 class="mb-0 mt-0">{{ current_user.username }}</h4>
+                    <h4 class="mb-0 mt-0" style="color: orange;">{{ current_user.username }}</h4>
                     <span>{{ current_user.email }}</span>
                     <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
                         <div class="d-flex flex-column">
@@ -38,7 +38,7 @@
     <div class="container mt-5 d-flex justify-content-center">
         <div class="row">
             <div class="col text-center">
-                <strong><h4>Cursos</h4></strong>
+                <strong><h4 style="color: orange;">Cursos</h4></strong>
                 <div class="btn-group d-flex flex-wrap justify-content-center">
                     {% for curso in current_user.cursos.split(";") %}
                         <button type="button" class="btn btn-secondary mt-2 mx-1" style="box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);" disabled>{{ curso }}</button>

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="container mt-3">
+        <div class="container">
+            <div class="row my-4 p-3 rounded meupost d-flex align-items-start">
+                <div class="col-10 col-md-3 mb-3 mb-md-0">
+                    <div class="image d-flex flex-column align-items-center justify-content-center">
+                        <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(post.autor.foto_perfil)) }}"
+                            class="rounded img-fluid" style="height: 200px; object-fit: cover;" alt="Foto de perfil">
+                        <strong class="mt-2">{{ post.autor.username }}</strong>
+
+                        <div class="btn-group d-flex flex-wrap justify-content-center">
+                            {% for curso in post.autor.cursos.split(";") %}
+                            <button type="button" class="btn btn-secondary mt-2 mx-1"
+                                style="box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);" disabled>{{ curso }}</button>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-md-9">
+                    <h2>{{ post.titulo }}</h2>
+                    <p>{{ post.corpo }}</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% if form_editar_post %}
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col">
+                <form action="" method="post" class="border rounded p-4 mt-2" style="box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.158);">
+                    {{ form_editar_post.csrf_token }}
+
+                    <legend style="color: orange;">Editar Post</legend>
+                    <fieldset>
+                        <div class="form-group mt-2">
+                            {{ form_editar_post.titulo.label(class="form-control-label") }}
+
+                            {% if form_editar_post.titulo.errors %}
+                                {{ form_editar_post.titulo(class="form-control is-invalid") }}
+
+                                <div class="invalid-feedback">
+                                    {% for erro in form_editar_post.titulo.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+
+                                </div>
+
+                            {% else %}
+                                {{ form_editar_post.titulo(class="form-control") }}
+
+                            {% endif %}
+
+                        </div>
+                        <div class="form-group mt-2">
+                            {{ form_editar_post.corpo.label(class="form-control-label") }}
+
+                            {% if form_editar_post.corpo.errors %}
+                                {{ form_editar_post.corpo(class="form-control is-invalid") }}
+
+                                <div class="invalid-feedback">
+                                    {% for erro in form_editar_post.corpo.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+
+                                </div>
+
+                            {% else %}
+                                {{ form_editar_post.corpo(class="form-control") }}
+
+                            {% endif %}
+
+                        </div>
+                    </fieldset>
+
+                    {{ form_editar_post.botao_submit_criar_post(class="btn btn-secondary mt-2") }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

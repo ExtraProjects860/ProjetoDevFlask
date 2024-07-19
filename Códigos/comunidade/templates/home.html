@@ -1,7 +1,33 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <div class="container">
-        <h1>Teste</h1>
+    <div class="container mt-3">
+        <h2 style="color: orange;">Post dos usuários da Comunidade</h2>
+        <hr>
+        {% for post in posts %}
+            <div class="container">
+                <div class="row my-4 p-3 rounded meupost d-flex align-items-start">
+                    <div class="col-10 col-md-3 mb-3 mb-md-0">
+                        <div class="image d-flex flex-column align-items-center justify-content-center">
+                            <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(post.autor.foto_perfil)) }}"
+                                class="rounded img-fluid" style="height: 200px; object-fit: cover;" alt="Foto de perfil">
+                            <strong class="mt-2">{{ post.autor.username }}</strong>
+
+                            <div class="btn-group d-flex flex-wrap justify-content-center">
+                                {% for curso in post.autor.cursos.split(";") %}
+                                    <button type="button" class="btn btn-secondary mt-2 mx-1" style="box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);" disabled>{{ curso }}</button>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <a style="text-decoration: none;" href="{{ url_for('exibir_post', post_id=post.id) }}"><h2>{{ post.titulo }}</h2></a>
+                        <p>{{ post.corpo }}</p>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
