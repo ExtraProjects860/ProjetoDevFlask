@@ -25,9 +25,10 @@ from flask_login import (
 
 
 @app.route("/")
-@login_required
 def home():
-    return render_template("home.html")
+    posts:list = Post.query.order_by(Post.id.desc())
+    
+    return render_template("home.html", posts=posts)
 
 
 @app.route("/contato")
@@ -176,7 +177,7 @@ def editar_perfil():
         
         flash(f"Perfil Atualizado com Sucesso!", "alert-success")
         
-        return redirect(url_for('perfil'))
+        return redirect(url_for("perfil"))
     elif request.method == "GET":
         form_editarperfil.email.data = current_user.email
         
@@ -185,3 +186,31 @@ def editar_perfil():
     foto_perfil = url_for('static', filename=f'fotos_perfil/{current_user.foto_perfil}')
     
     return render_template('editarperfil.html', foto_perfil=foto_perfil, form_editarperfil=form_editarperfil)
+
+
+@app.route("/post/<post_id>", methods=["GET", "POST"])
+@login_required
+def exibir_post(post_id):
+    post = Post.query.get(post_id)
+    
+    if current_user == post.autor:
+        form_editar_post:FormCriarPost = FormCriarPost()
+        
+        if form_editar_post.validate_on_submit():
+            post.titulo = form_editar_post.titulo.data
+            
+            post.corpo = form_editar_post.corpo.data
+            
+            database.session.commit()
+            
+            flash(f"Post Atualizado com Sucesso!", "alert-success")
+            
+            return redirect(url_for("home"))
+        elif request.method == "GET":
+            form_editar_post.titulo.data = post.titulo
+            
+            form_editar_post.corpo.data = post.corpo
+            
+        return render_template("post.html", post=post, form_editar_post=form_editar_post)
+    
+    return render_template("post.html", post=post)
