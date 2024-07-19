@@ -29,3 +29,7 @@
 .number3 {
   font-weight: 500;
 }
+.meupost {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.205);
+  background: #f2f5f8 !important;
+}
