@@ -22,7 +22,14 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-9">
-                        <a style="text-decoration: none;" href="{{ url_for('exibir_post', post_id=post.id) }}"><h2>{{ post.titulo }}</h2></a>
+                        <a style="text-decoration: none;" href="{{ url_for('exibir_post', post_id=post.id) }}">
+                            <h2 class="d-flex align-items-center">
+                                {{ post.titulo }}
+                                <small class="text-muted" style="font-size: 15px;">
+                                     - Data de Criação: {{ post.data_criacao.strftime("%d/%m/%Y") }}
+                                </small>
+                            </h2>
+                        </a>
                         <p>{{ post.corpo }}</p>
 
                     </div>
