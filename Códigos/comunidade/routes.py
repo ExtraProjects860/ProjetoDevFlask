@@ -10,7 +10,8 @@ from flask import (
     url_for,
     request,
     flash,
-    redirect,)
+    redirect,
+    abort)
 from comunidade.forms import (
     FormLogin, 
     FormCriarConta, 
@@ -214,3 +215,20 @@ def exibir_post(post_id):
         return render_template("post.html", post=post, form_editar_post=form_editar_post)
     
     return render_template("post.html", post=post)
+
+@app.route("/post/<post_id>/excluir", methods=["GET", "POST"])
+@login_required
+def excluir_post(post_id):
+    post:Post = Post.query.get(post_id)
+    
+    if current_user != post.autor:
+        abort(403)
+        
+    database.session.delete(post)
+        
+    database.session.commit()
+        
+    flash(f"Post Excluído com Sucesso", "alert-danger")
+        
+    return redirect(url_for("home"))
+    
