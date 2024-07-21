@@ -12,6 +12,28 @@ ProjetoDevFlask é um projeto de desenvolvimento para criação rápida de aplic
 - **SQLAlchemy**: ORM para integração com banco de dados SQL.
 - **SQLite**: Banco de dados utilizado na aplicação.
 
+## Telas do projeto
+
+- Tela Principal
+
+![Tela Principal](https://github.com/ExtraProjects860/ProjetoDevFlask/blob/main/Imagens%20do%20Site/TelaPrincipal.png)
+
+- Tela de Usuários Cadastrados no Sistema
+
+![Tela Usuários](https://github.com/ExtraProjects860/ProjetoDevFlask/blob/main/Imagens%20do%20Site/TelaUsu%C3%A1rios.png)
+
+- Tela de Cadastro
+
+![Tela de Cadastro](https://github.com/ExtraProjects860/ProjetoDevFlask/blob/main/Imagens%20do%20Site/TelaLoginCadastro.png)
+
+- Tela de Perfil
+
+![Tela de Perfil](https://github.com/ExtraProjects860/ProjetoDevFlask/blob/main/Imagens%20do%20Site/TelaPerfil.png)
+
+- Tela de Editar Post
+
+![Tela de Editar Post](https://github.com/ExtraProjects860/ProjetoDevFlask/blob/main/Imagens%20do%20Site/TelaEditarPost.png)
+
 ### Dependências (requirements.txt)
 
   ```plaintext
